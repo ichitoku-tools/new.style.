@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>口コミカスタムジェネレーター</title>
+  <link rel="icon" type="image/png" href="8E6E441B-950F-4495-B438-63C407E17CDE.png">
+  <style>
+    body {
+      background-color: #eef7fc;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 1em;
+      text-align: center;
+      color: #333;
+    }
+    header {
+      margin-bottom: 1em;
+    }
+    header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 0.5em;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 0.8em;
+      color: #3498db;
+    }
+    select, button, textarea {
+      width: 90%;
+      max-width: 400px;
+      padding: 0.8em;
+      margin: 0.5em 0;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #3498db;
+      box-sizing: border-box;
+    }
+    select {
+      background-color: #ffffff;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    textarea {
+      height: 140px;
+      resize: none;
+      background-color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="8E6E441B-950F-4495-B438-63C407E17CDE.png" alt="たまごっちAI">
+    <h1>口コミカスタムジェネレーター</h1>
+  </header>
+
+  <select id="courseSelect">
+    <option value="">コースを選んでください（未選択ならランダム）</option>
+    <option value="もみほぐしコース">もみほぐしコース</option>
+    <option value="足つぼコース">足つぼコース</option>
+    <option value="ヘッドスパコース">ヘッドスパコース</option>
+    <option value="オイルマッサージコース">オイルマッサージコース</option>
+  </select>
+
+  <select id="issueSelect">
+    <option value="">主訴を選んでください（未選択ならランダム）</option>
+    <option value="肩こり">肩こり</option>
+    <option value="腰痛">腰痛</option>
+    <option value="足のむくみ">足のむくみ</option>
+    <option value="眼精疲労">眼精疲労</option>
+    <option value="疲労感">疲労感</option>
+    <option value="ストレス">ストレス</option>
+  </select>
+
+  <select id="effectSelect">
+    <option value="">効果を選んでください（未選択ならランダム）</option>
+    <option value="肩が軽くなった">肩が軽くなった</option>
+    <option value="腰が楽になった">腰が楽になった</option>
+    <option value="足がスッキリした">足がスッキリした</option>
+    <option value="目がシャキッとした">目がシャキッとした</option>
+    <option value="リフレッシュできた">リフレッシュできた</option>
+  </select>
+
+  <select id="situationSelect">
+    <option value="">シチュエーションを選んでください（未選択ならランダム）</option>
+    <option value="仕事帰りに">仕事帰りに</option>
+    <option value="休日リフレッシュに">休日リフレッシュに</option>
+    <option value="運動後に">運動後に</option>
+    <option value="旅行前に">旅行前に</option>
+  </select>
+
+  <select id="endingSelect">
+    <option value="">締めコメントを選んでください（未選択ならランダム）</option>
+    <option value="またお願いしたいです。">またお願いしたいです。</option>
+    <option value="大満足でした！">大満足でした！</option>
+    <option value="癒されました。">癒されました。</option>
+    <option value="元気になりました！">元気になりました！</option>
+  </select>
+
+  <select id="styleSelect">
+    <option value="">スタイルを選んでください（未選択なら丁寧）</option>
+    <option value="丁寧">丁寧</option>
+    <option value="カジュアル">カジュアル</option>
+    <option value="フレンドリー">フレンドリー</option>
+  </select>
+
+  <button onclick="generate()">口コミを生成する！</button>
+
+  <textarea id="output" readonly></textarea>
+
+  <button onclick="copyOutput()">コピーする</button>
+
+  <script>
+    function randomPick(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function generateReview(options) {
+      const courses = ["もみほぐしコース", "足つぼコース", "ヘッドスパコース", "オイルマッサージコース"];
+      const issues = ["肩こり", "腰痛", "足のむくみ", "眼精疲労", "疲労感", "ストレス"];
+      const effects = ["肩が軽くなった", "腰が楽になった", "足がスッキリした", "目がシャキッとした", "リフレッシュできた"];
+      const situations = ["仕事帰りに", "休日リフレッシュに", "運動後に", "旅行前に"];
+      const endings = ["またお願いしたいです。", "大満足でした！", "癒されました。", "元気になりました！"];
+
+      const course = options.course || randomPick(courses);
+      const issue = options.issue || randomPick(issues);
+      const effect = options.effect || randomPick(effects);
+      const situation = options.situation || randomPick(situations);
+      const ending = options.ending || randomPick(endings);
+
+      let text = `${situation}、${course}を利用しました。${issue}に悩んでいましたが、施術後は${effect} ${ending}`;
+
+      if (options.style === "カジュアル") {
+        text = text.replace("ました。", "た！").replace("です。", "だよ！");
+      } else if (options.style === "フレンドリー") {
+        text = text.replace("ました。", "だったよ〜").replace("です。", "だね！");
+      }
+      return text;
+    }
+
+    function generate() {
+      const course = document.getElementById('courseSelect').value;
+      const issue = document.getElementById('issueSelect').value;
+      const effect = document.getElementById('effectSelect').value;
+      const situation = document.getElementById('situationSelect').value;
+      const ending = document.getElementById('endingSelect').value;
+      const style = document.getElementById('styleSelect').value;
+
+      const review = generateReview({
+        course: course || undefined,
+        issue: issue || undefined,
+        effect: effect || undefined,
+        situation: situation || undefined,
+        ending: ending || undefined,
+        style: style || undefined
+      });
+
+      document.getElementById('output').value = review;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      alert('コピーしました！');
+    }
+  </script>
+</body>
+</html>
