@@ -1,0 +1,81 @@
+
+<!--
+【著作権・利用に関する注意事項】
+
+このファイルの構成、デザイン、ロジックはオリジナル制作物です。
+無断転載・複製・商用利用を禁止します。
+引用・参考利用をご希望の場合は、事前にご連絡ください。
+
+Copyright © 2025 Custom Review Project. All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>口コミカスタムジェネレーター</title>
+  <script src="custom_review_engine.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      padding: 2em;
+      text-align: center;
+    }
+    select, button, textarea {
+      margin: 0.5em;
+      padding: 0.5em;
+      width: 90%;
+      max-width: 400px;
+      font-size: 1em;
+    }
+    textarea {
+      height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <h2>口コミカスタムジェネレーター</h2>
+  
+  <select id="courseSelect">
+    <option value="">コース（未選択ならランダム）</option>
+    <option value="もみほぐしコース">もみほぐしコース</option>
+    <option value="足つぼコース">足つぼコース</option>
+    <option value="ヘッドスパコース">ヘッドスパコース</option>
+    <option value="オイルマッサージコース">オイルマッサージコース</option>
+  </select><br>
+
+  <select id="styleSelect">
+    <option value="">スタイル（未選択なら丁寧）</option>
+    <option value="丁寧">丁寧</option>
+    <option value="カジュアル">カジュアル</option>
+    <option value="フレンドリー">フレンドリー</option>
+  </select><br>
+
+  <button onclick="generate()">口コミを生成！</button><br>
+
+  <textarea id="output" readonly></textarea><br>
+
+  <button onclick="copyOutput()">コピーする</button>
+
+  <script>
+    function generate() {
+      const course = document.getElementById('courseSelect').value;
+      const style = document.getElementById('styleSelect').value;
+
+      const review = generateReview({
+        course: course || undefined,
+        style: style || undefined
+      });
+
+      document.getElementById('output').value = review;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      alert('コピーしました！');
+    }
+  </script>
+</body>
+</html>
